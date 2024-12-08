@@ -1,9 +1,7 @@
 import { db } from '$lib/server/db';
 import { votes } from '$lib/server/db/schema';
-import { json, RequestHandler } from '@sveltejs/kit';
 
-export const POST: RequestHandler=async({request}) => {
-    const candidate = await db.insert(votes).values({candidate:'John Christian'})
-  
-    return json({message : candidate})
-  }
+export async function GET() {
+    const data = db.select().from(votes).all();
+    return new Response(JSON.stringify(data), { status: 200 });
+}
